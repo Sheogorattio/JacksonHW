@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class JacksonHW {
 	public static void main(String[] args) {
-		Person person = new Person("John Doe", 30);
+		Person person = new Person("John Doe", 40);
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
@@ -18,10 +18,17 @@ public class JacksonHW {
 			// Запись в JSON файл
 			objectMapper.writeValue(new File("person.json"), person);
 			System.out.println("Объект записан в person.json");
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			
+			// Чтение с файла и десирализация
+            Person readPerson = objectMapper.readValue(new File("person.json"), Person.class);
+            System.out.println("Deserialized object:");
+            System.out.println(objectMapper.writeValueAsString(readPerson));
+
+            System.out.println("Ім'я: " + readPerson.getName());
+            System.out.println("Вік: " + readPerson.getAge());
+		} catch (Exception e) {
+
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -29,6 +36,7 @@ public class JacksonHW {
 		private String name;
 		private int age;
 
+		public Person() {}
 		public Person(String name, int age) {
 			this.name = name;
 			this.age = age;
